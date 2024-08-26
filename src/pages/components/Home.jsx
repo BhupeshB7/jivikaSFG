@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../components/Header/Header";
-import Work from "./work";
+import Work from "./Work";
 import Carousel from "./Carousel";
 import AuthDetails from "../auth/AuthDetails";
 import Footer from "../../components/Footer";
