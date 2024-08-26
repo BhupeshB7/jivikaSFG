@@ -8,18 +8,11 @@ const Header = () => {
         {name: "Home", href: "/"},
         {name: "About", href: "/about"},
         {name: "Contact", href: "/contact"},
-        {name: "Payment History", href: "/blog"},
-        {name: "Gallery", href: "/gallery"},
+        {name: "Payment History", href: "/payment-history"},
     ]
     const works =[
         {name:'Data Entry'},
         {name:'Data Operator'},
-        {name:'Aadhar Card Verification'},
-        {name:'New Aadhar Car'},
-        {name:'Pan Card'},
-        {name:'Income Certificate'},
-        {name:'Residence Certificate'},
-        {name:'Caste Certificate'},
         {name:'Ayushman card Apply'}
     ]
   return (
@@ -42,7 +35,7 @@ const Header = () => {
       {navItem.map((item, index) => (
         <li
           key={index}
-          className="text-center text-md md:text-lg text-amber-100 hover:text-amber-200 cursor-pointer px-1 md:px-3 whitespace-nowrap"
+          className="text-center text-md md:text-lg text-amber-100 hover:text-amber-200 px-6 py-1 bg-gray-800 cursor-pointer  md:px-3 whitespace-nowrap"
         >
           <Link to={item.href}>
             {item.name}

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-
+import img1 from '../../assets/img1.jpg';
+import img2 from '../../assets/img2.jpeg';
+import img3 from '../../assets/img3.jpg';
 const Carousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const slides = [
-        'https://plus.unsplash.com/premium_photo-1675805015392-28fd80c551ec?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bmF0dXJlfGVufDB8fDB8fHww',
-        'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D',
-        'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D',
-    ];
+        img2,
+        img1,
+         'https://media.gettyimages.com/id/1029301918/photo/women-painting-mud-pot.jpg?s=612x612&w=0&k=20&c=kr1O0WfxfTgkNZou-RwgGgur70aqpqxQk3zZO00aDFo=',
+        img3
+        ];
 
     const handlePrev = () => {
         setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));

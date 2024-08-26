@@ -2,6 +2,7 @@ import React from "react";
 import Student from "./components/user/Student";
 import { useSelector } from "react-redux";
 import BackButton from "../components/BackButton";
+import Footer from "../components/Footer";
 
 const Profile = () => {
     const user = useSelector(state => state.user?.user);
@@ -22,6 +23,7 @@ const Profile = () => {
         </div>
       </div>
       <Student/>
+      <Footer/>
     </>
   );
 };
