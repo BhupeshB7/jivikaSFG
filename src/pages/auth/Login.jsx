@@ -32,7 +32,7 @@ const navigate = useNavigate();
         //   body: JSON.stringify(userData),
         // });
         toast.success("Login Successful");
-        navigate("/");
+        navigate("/profile");
       } catch (error) {
         console.error("Failed to fetch user information", error);
         toast.error("Login Failed", error);
