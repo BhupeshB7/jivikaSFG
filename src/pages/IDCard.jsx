@@ -1,18 +1,22 @@
 import React from "react";
 import html2canvas from "html2canvas";
 import { useSelector } from "react-redux";
-import  idcard from "../assets/idcard.png";
+import idcard from "../assets/idcard.png";
 import logo from "../assets/logo1.png";
+
 const IDCard = () => {
-  const user = useSelector((state) => state.user?.user);
+  const user = useSelector((state) => state.user?.user || {});
+  
   const handleDownload = () => {
     const idCardElement = document.getElementById("idCard");
-    html2canvas(idCardElement).then((canvas) => {
-      const link = document.createElement("a");
-      link.href = canvas.toDataURL("image/png");
-      link.download = "IDCard.png";
-      link.click();
-    });
+    if (idCardElement) {
+      html2canvas(idCardElement).then((canvas) => {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = "IDCard.png";
+        link.click();
+      });
+    }
   };
 
   return (
@@ -27,20 +31,20 @@ const IDCard = () => {
             <img src={logo} alt="logo" className="w-16 h-12 mb-4" />
             <div className="flex justify-center mt-12">
               <img
-                src={user?.profile}
+                src={user?.profile || "default-profile.png"} // Fallback profile image
                 alt="Profile"
                 className="w-28 h-28 rounded-full border-2 border-gray-400"
               />
             </div>
             <div className="p-4 text-center">
-              <h3 className="text-md font-bold text-gray-700 uppercase">{user?.name}</h3>
+              <h3 className="text-md font-bold text-gray-700 uppercase">{user?.name || "Unknown User"}</h3>
               <p className="text-sm text-gray-600">Student</p>
               <div className="mt-4 text-left">
                 <p>
                   <strong>ID:</strong> {Date.now()}   
                 </p>
                 <p className="mt-2">
-                  <strong>Email:</strong> {user?.email}    
+                  <strong>Email:</strong> {user?.email || "Not Provided"}    
                 </p>
               </div>
               <p className="pt-4 text-end">Valid Till: 20/12/2025</p>

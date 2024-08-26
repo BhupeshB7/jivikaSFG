@@ -6,7 +6,7 @@ import Login from "./pages/auth/Login";
 import { Toaster } from "react-hot-toast";
 import ApplyForm from "./pages/components/user/ApplyForm";
 import Profile from "./pages/Profile";
-import IDCard from "./pages/Idcard";
+import IDCard from "./pages/IDCard";
 const App = () => {
   return (
     <>
