@@ -36,7 +36,8 @@ const Attendance = () => {
     setIsModalOpen(true);
 
     const now = new Date();
-    const expiryTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).getTime();
+    // const expiryTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).getTime();
+    const expiryTime = now.getTime() + 10*60 +1000;  // 10 minutes from now
 
     localStorage.setItem('capturedImage', imageSrc);
     localStorage.setItem('captureTime', time);

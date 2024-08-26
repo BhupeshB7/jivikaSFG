@@ -1,5 +1,6 @@
 import React from 'react';
 import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is imported
+import BackButton from '../components/BackButton';
 
 // Utility function to get the last 7 days
 const getLastSevenDays = () => {
@@ -29,8 +30,10 @@ const TotalAttendance = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-[transparent] text-white p-6 md:w-[60%] md:mx-auto">
-      <div className="container mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
+    <div className='mt-24'>
+        <BackButton />
+    <div className="min-h-screen  bg-[transparent] text-white p-6 md:w-[60%] md:mx-auto">
+      <div className="container  mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Last 7 Days Attendance</h2>
         <table className="min-w-full bg-gray-700 border border-gray-600 rounded-lg">
           <thead className="bg-gray-600 border-b border-gray-500">
@@ -55,6 +58,7 @@ const TotalAttendance = () => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };
