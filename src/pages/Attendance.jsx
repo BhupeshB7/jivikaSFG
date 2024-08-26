@@ -37,7 +37,7 @@ const Attendance = () => {
 
     const now = new Date();
     // const expiryTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).getTime();
-    const expiryTime = now.getTime() + 10*60 +1000;  // 10 minutes from now
+ const expiryTime = now.getTime() + 10 * 60 * 1000;
 
     localStorage.setItem('capturedImage', imageSrc);
     localStorage.setItem('captureTime', time);
@@ -54,7 +54,7 @@ const Attendance = () => {
         <h1 className="text-2xl font-bold mb-6 text-center">Attendance Capture</h1>
         {attendance === 0 ? (
           <div className="flex justify-center mb-4">
-            <Webcam
+            <Webcam 
               audio={false}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
