@@ -3,6 +3,7 @@ import html2canvas from "html2canvas";
 import { useSelector } from "react-redux";
 import idcard from "../assets/idcard.png";
 import logo from "../assets/logo1.png";
+import BackButton from "../components/BackButton";
 
 const IDCard = () => {
   const user = useSelector((state) => state.user?.user || {});
@@ -21,6 +22,7 @@ const IDCard = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#020c17]">
+      <BackButton/>
       <div
         id="idCard"
         className="w-80 bg-slate-800 shadow-md rounded-lg overflow-hidden"
