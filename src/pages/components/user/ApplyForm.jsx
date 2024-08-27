@@ -98,7 +98,7 @@ const ApplyForm = () => {
       formDataImage.append("upload_preset", "anishayan");
 
       const cloudinaryRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dmoukvc5oe/image/upload",
+        "https://api.cloudinary.com/v1_1/dmoukvc5o/image/upload",
         formDataImage
       );
       const imageUrl = cloudinaryRes.data.secure_url;
@@ -111,8 +111,7 @@ const ApplyForm = () => {
         imageUrl,
       };
       console.log("data", data);
-      await axios.post("https://your-backend-endpoint/api/apply", data);
-
+      await axios.post("http://localhost:5000/api/apply", data);
       toast.success("Form submitted successfully!");
     } catch (error) {
       toast.error("Failed to submit the form.");
@@ -130,7 +129,7 @@ const ApplyForm = () => {
         twelfthResult: "",
         address: "",
         termsAccepted: false,
-      })
+      });
     }
   };
 

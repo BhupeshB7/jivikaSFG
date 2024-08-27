@@ -14,6 +14,7 @@ import Exam from "./pages/Exam";
 import Result from "./pages/Result";
 import Attendance from "./pages/Attendance";
 import TotalAttendance from "./pages/TotalAttendance";
+import AdminHome from "./pages/Admin/AdminHome";
 const App = () => {
   return (
     <>
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/result" element={<Result />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/total-attendance" element={<TotalAttendance />} />
+        <Route path="/admin" element={<AdminHome />} />
       </Routes>
    
     </BrowserRouter>

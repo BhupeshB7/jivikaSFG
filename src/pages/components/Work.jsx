@@ -40,7 +40,7 @@ const Work = () => {
             key={index}
             className={`work-card flex ${
               index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-            } py-2 gap-3 items-center justify-between m-auto w-[100%] bg-gray-800 hover:bg-zinc-900 rounded-xl`}
+            } py-2 gap-3 items-center justify-between m-auto w-[100%] bg-gray-700 hover:bg-zinc-900 rounded-xl`}
           >
             <div
               className={`icon-container flex items-center justify-center text-4xl text-amber-200 bg-gray-900 w-100 h-100 p-5 px-7 ${

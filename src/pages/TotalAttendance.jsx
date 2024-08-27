@@ -1,64 +1,132 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is imported
 import BackButton from '../components/BackButton';
+import { useSelector } from 'react-redux';
+import { db } from '../config/firebase';
+import { ref, onValue } from 'firebase/database';
 
-// Utility function to get the last 7 days
-const getLastSevenDays = () => {
-  const today = new Date();
-  const dates = [];
-
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i);
-    dates.push(date.toISOString().split('T')[0]); // Format as YYYY-MM-DD
-  }
-
-  return dates;
-};
-
-// Sample attendance data
-const sampleAttendanceData = (date) => {
-  // Randomly return true or false for attendance
-  return Math.random() > 0.5;
-};
+const ITEMS_PER_PAGE = 10;
 
 const TotalAttendance = () => {
-  const dates = getLastSevenDays();
-  const attendance = dates.map(date => ({
-    date,
-    present: sampleAttendanceData(date) // Randomly generating attendance status
-  }));
+  const [attendance, setAttendance] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const user = useSelector((state) => state.user?.user);
+
+  useEffect(() => {
+    if (user?.email) {
+      const attendanceRef = ref(db, 'attendances'); // Update path as needed
+
+      const unsubscribe = onValue(attendanceRef, (snapshot) => {
+        setLoading(false); // Stop loading spinner when data is fetched
+
+        const data = snapshot.val();
+        if (data) {
+          const userAttendance = Object.values(data).filter(
+            (item) => item.email === user.email
+          );
+
+          const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+          const paginatedAttendance = userAttendance.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+          setAttendance(paginatedAttendance);
+          setTotalPages(Math.ceil(userAttendance.length / ITEMS_PER_PAGE));
+        } else {
+          setAttendance([]);
+        }
+      }, (error) => {
+        setLoading(false); // Stop loading spinner on error
+        setError('Failed to load attendance records.');
+      });
+
+      // Cleanup subscription on unmount
+      return () => unsubscribe();
+    } else {
+      setLoading(false);
+    }
+  }, [user?.email, currentPage]);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prevPage => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prevPage => prevPage - 1);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className='flex items-center justify-center min-h-screen'>
+       <h1 className="text-2xl text-white"> Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <div className='mt-24'>
-        <BackButton />
-    <div className="min-h-screen  bg-[transparent] text-white p-6 md:w-[60%] md:mx-auto">
-      <div className="container  mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">Last 7 Days Attendance</h2>
-        <table className="min-w-full bg-gray-700 border border-gray-600 rounded-lg">
-          <thead className="bg-gray-600 border-b border-gray-500">
-            <tr>
-              <th className="py-2 px-4 text-center">Date</th>
-              <th className="py-2 px-4 text-center">Attendance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {attendance.map((entry, index) => (
-              <tr key={index} className="hover:bg-gray-600">
-                <td className="py-2 px-4 text-center">{entry.date}</td>
-                <td className="py-2 px-4 text-center">
-                  {entry.present ? (
-                    <span className="text-green-400">✔️</span>
-                  ) : (
-                    <span className="text-red-400">❌</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <BackButton />
+      <div className="min-h-screen bg-[transparent] text-white p-6 md:w-[60%] md:mx-auto">
+        <div className="container mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold mb-4">Attendance Records</h2>
+          {error ? (
+            <p className="text-red-500">{error}</p>
+          ) : attendance.length === 0 ? (
+            <p className="text-gray-400">No records found.</p>
+          ) : (
+            <>
+              <table className="min-w-full bg-gray-700 border border-gray-600 rounded-lg">
+                <thead className="bg-gray-600 border-b border-gray-500">
+                  <tr>
+                    <th className="py-2 px-4 text-center">Name</th>
+                    <th className="py-2 px-4 text-center">Date</th>
+                    <th className="py-2 px-4 text-center">Image</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {attendance.map((entry, index) => (
+                    <tr key={index} className="hover:bg-gray-600">
+                      <td className="py-2 px-4 text-center">{user.name}</td>
+                      <td className="py-2 px-4 text-center">{entry.time}</td>
+                      <td className="py-2 px-4 text-center">
+                        <img
+                          src={entry.imageUrl}
+                          alt="Attendance"
+                          className="border rounded-lg shadow-md"
+                          width={100}
+                          height={75}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="mt-4 flex justify-between">
+                <button
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                  className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                >
+                  Previous
+                </button>
+                <span className="self-center">{`Page ${currentPage} of ${totalPages}`}</span>
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                  className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };
